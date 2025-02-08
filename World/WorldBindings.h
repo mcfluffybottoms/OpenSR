@@ -35,8 +35,8 @@ class QQmlEngine;
     }
 
 #define WORLD_JS_DEFAULT_GADGET_CONSTRUCTOR(Factory, Class)\
-    Class *Factory::Class() {\
-        return new World::Class();\
+    Class Factory::Class() {\
+        return World::Class();\
     }
 
 namespace OpenSR
