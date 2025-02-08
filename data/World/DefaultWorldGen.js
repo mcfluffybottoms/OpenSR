@@ -122,9 +122,11 @@ function initStation(obj, kind) {
     case "ranger":
     case "rangerCenter":
     case "rc":
-        obj.stationKind = World.SpaceStation.RangerCenter;
         obj.style = World.StationStyle();
         obj.style.texture = "res:/DATA/Ruins/RC.gai";
+        console.log(World.SpaceStation.RangerCenter)
+        obj.stationKind = 1;//World.SpaceStation.RangerCenter;
+        // TODO: understand why registration of Enums from C++ doesn't work
     }
 }
 
