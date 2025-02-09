@@ -15,4 +15,9 @@ CMakeCache.txt
 /data/rus.dat
 /data/main.json
 /data/rus.json
+# Unpacked resources
+/data/CFG
+/data/DATA
+/data/Matrix
+
 
