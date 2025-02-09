@@ -1,6 +1,5 @@
 import QtQuick 2.3
 import OpenSR 1.0
-import OpenSR.World 1.0 as World
 
 Item {
     id: menu
@@ -13,7 +12,7 @@ Item {
     }
 
     Connections {
-        onHeightChanged: {
+        function onHeightChanged() {
             background.height = menu.height
             updateBackgroundAnim()
         }
