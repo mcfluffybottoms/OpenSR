@@ -5,4 +5,14 @@ Makefile
 CMakeFiles
 *.user
 CMakeCache.txt
+# Root build dir
+/build
+/libworld.so
+
+# Decyphered dat files
+/data/main.dat
+/data/CacheData.dat
+/data/rus.dat
+/data/main.json
+/data/rus.json
 
