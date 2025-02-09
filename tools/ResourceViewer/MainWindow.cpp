@@ -160,13 +160,22 @@ void MainWindow::loadResource(FileNode *node)
 {
     QString fileName = node->name;
     QByteArray resData = model.getData(node);
-    QFileInfo fileInfo(fileName);
+    QFileInfo fileInfo(node->fullName);
+    // if (!fileInfo.exists()) {
+    //     qWarning() << "File doesn't exist" << fileName;
+    //     return;
+    // }
+
     QBuffer dev(&resData);
     dev.open(QIODevice::ReadOnly);
-    QImageReader reader(&dev, fileInfo.suffix().toLower().toLatin1());
+    const auto format = fileInfo.suffix().toLower().toLatin1();
+    QImageReader reader(&dev, format);
 
-    if (!reader.canRead())
+    if (!reader.canRead()) {
+        qWarning() << "can't read from file " << fileName;
+        qWarning() << "Maybe image format " << format << " is not supported (missing path to plugin?)";
         return;
+    }
 
     int frameCount = reader.imageCount();
 
@@ -236,6 +245,7 @@ void MainWindow::imageLoaded()
 
 void MainWindow::treeDoubleClicked(const QModelIndex& index)
 {
+    qDebug() << Q_FUNC_INFO;
     FileNode *node = static_cast<FileNode *>(index.internalPointer());
     loadResource(node);
 }
