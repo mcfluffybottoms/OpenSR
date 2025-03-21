@@ -3,9 +3,13 @@ import OpenSR 1.0
 
 Item {
     
-    property string backLeftImage: {
-        Engine.datValue("ML.R2.Ship." + raceStr + "." + rankStr);
-        "res:/ORC/ButtonN.sci"
+    Rectangle {
+        width: 30
+        height: 30
+        color: "red"
+        border.color: "black"
+        border.width: 5
+        radius: 5
     }
     BorderImage {
         id: bg

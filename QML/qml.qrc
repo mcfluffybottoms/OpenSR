@@ -12,6 +12,6 @@
         <file>DebugTooltip.qml</file>
         <file>TrajectoryItem.qml</file>
         <file>PlanetItem.qml</file>
-        <file>ShipWindow.qml</file>
+        <file>ShipObject.qml</file>
     </qresource>
 </RCC>

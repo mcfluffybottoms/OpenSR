@@ -327,8 +327,8 @@ Item {
             shipView.visible = !shipView.visible
         }
     }
-
-    ShipWindow {
+    // Create a Ship Object. Will generate a Ship.
+    ShipObject {
         id: shipView
         anchors.centerIn: parent
     }
