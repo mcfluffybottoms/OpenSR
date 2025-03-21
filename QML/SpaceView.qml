@@ -315,4 +315,21 @@ Item {
         text: "Turn"
         onClicked: WorldManager.startTurn()
     }
+
+    // debug ship button. Creates a ship.
+    Button {
+        id: shipViewButton
+        anchors.bottom: parent.bottom
+        anchors.right:  turnButton.left
+        text: "Ship"
+        onClicked: {
+            console.log("clicked");
+            shipView.visible = !shipView.visible
+        }
+    }
+
+    ShipWindow {
+        id: shipView
+        anchors.centerIn: parent
+    }
 }
