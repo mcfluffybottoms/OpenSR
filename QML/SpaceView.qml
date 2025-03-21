@@ -328,8 +328,8 @@ Item {
         }
     }
 
-    //ShipWindow {
-    //    id: shipView
-    //    anchors.centerIn: parent
-    //}
+    ShipWindow {
+        id: shipView
+        anchors.centerIn: parent
+    }
 }
