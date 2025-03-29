@@ -12,14 +12,13 @@ Item {
     signal exited()
 
     x: positioning && object ? object.position.x : 0
+    y: positioning && object ? object.position.y : 0
 
     function moveTo(destination) {
         if (objectLoader.item && objectLoader.item.isShip) {
             objectLoader.item.moveTo(destination)
         }
     }
-
-    y: positioning && object ? object.position.y : 0
 
     Loader {
         anchors.centerIn: parent
@@ -78,17 +77,17 @@ Item {
             property bool isShip: true 
             PathAnimation {
                 id: pathAnim
-                target: shipRoot
+                target: self
                 duration: 1000
                 easing.type: Easing.InOutQuad
                 path: Path { //pathview - google
                     id: shipPath
-                    startX: shipComponent.x
-                    startY: shipComponent.y
+                    // startX: self.x
+                    // startY: self.y
                     PathQuad {
                         id: pathLine
-                        x: shipComponent.x
-                        y: shipComponent.y
+                        // x: self.x
+                        // y: self.y
                     }
                 }
             }
@@ -100,8 +99,8 @@ Item {
                     pathAnim.stop();
                 }
                 
-                shipPath.startX = shipRoot.x;
-                shipPath.startY = shipRoot.y;
+                shipPath.startX = self.x;
+                shipPath.startY = self.y;
                 pathLine.x = destination.x;
                 pathLine.y = destination.y;
 

@@ -176,9 +176,15 @@ Item {
             mouse.accepted = true;
 
             var positionInSpaceNode = mapToItem(spaceNode, mouse.x, mouse.y);
-            WorldManager.context.playerShip.evalTrajectoryTo(positionInSpaceNode);
+
+            var topLeft =  spaceNode.mapFromItem(view, 0, 0, view.width, view.height);
+            //var defaultPosition = Qt.point(mouse.x, mouse.y);
+
             World.context.playerShip.destination = positionInSpaceNode;
             playerShipItem.moveTo(positionInSpaceNode);
+            console.log(Qt.point(playerShipItem.x, playerShipItem.y));
+            WorldManager.context.playerShip.position = positionInSpaceNode;
+            WorldManager.context.playerShip.evalTrajectoryTo(positionInSpaceNode);
             
         }
     }
