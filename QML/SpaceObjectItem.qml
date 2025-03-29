@@ -14,6 +14,12 @@ Item {
     x: positioning && object ? object.position.x : 0
     y: positioning && object ? object.position.y : 0
 
+    function moveTo(destination) {
+        if (objectLoader.item && objectLoader.item.isShip) {
+            objectLoader.item.moveTo(destination)
+        }
+    }
+
     Loader {
         anchors.centerIn: parent
         id: objectLoader
@@ -48,11 +54,70 @@ Item {
             cache: false
         }
     }
+
     Component {
         id: planetComponent
         PlanetItem {
         }
     }
+
+
+
+    Component {
+        id: shipComponent
+        // PathView {
+        //     anchors.fill: parent
+        //     model: ContactModel {}
+        //     delegate: shipRoot
+        //     path: shipPath
+        // }
+        AnimatedImage {
+            id: shipRoot
+            cache: false
+            property bool isShip: true 
+            PathAnimation {
+                id: pathAnim
+                target: self
+                duration: 1000
+                easing.type: Easing.InOutQuad
+                path: Path { //pathview - google
+                    id: shipPath
+                    // startX: self.x
+                    // startY: self.y
+                    PathQuad {
+                        id: pathLine
+                        // x: self.x
+                        // y: self.y
+                    }
+                }
+            }
+            
+            function moveTo(destination) {
+                console.log("Starting movement to:", destination.x, destination.y);
+                
+                if (pathAnim.running) {
+                    pathAnim.stop();
+                }
+                
+                shipPath.startX = self.x;
+                shipPath.startY = self.y;
+                pathLine.x = destination.x;
+                pathLine.y = destination.y;
+
+                pathAnim.start();
+            }         
+        }
+    }
+
+    // Shape {
+    //     anchors.fill: parent
+    //     ShapePath {
+    //         path: pathView.path
+    //         strokeColor: "gray"
+    //         strokeWidth: 2
+    //         fillColor: "transparent"
+    //     }
+    // }
 
     onObjectChanged: {
         objectLoader.source = ""
@@ -76,7 +141,7 @@ Item {
             objectLoader.sourceComponent = defaultComponent
             positioning = true
         } else if(WorldManager.typeName(object.typeId) === "OpenSR::World::Ship") {
-            objectLoader.sourceComponent = defaultComponent
+            objectLoader.sourceComponent = shipComponent
             positioning = true
         }
     }

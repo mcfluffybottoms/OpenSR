@@ -13,6 +13,8 @@ Item {
 
     property var trajectoryView
 
+    property var playerShipItem
+
     anchors.fill: parent
 
     Rectangle {
@@ -82,6 +84,13 @@ Item {
             o = component.createObject(spaceNode, {
                 object: system.children[c]
             });
+
+            // Getting player Ship QML object
+            if(system.children[c] == WorldManager.context.playerShip){
+                playerShipItem = o;
+                console.log("Player ship item initialized:", playerShipItem);
+            }
+
             o.entered.connect(showDebugTooltip);
             o.exited.connect(hideDebugTooltip);
             o.entered.connect(showTrajectory);
@@ -93,6 +102,9 @@ Item {
             object: system.children[0],
             visible: false
         });
+
+        // Starting first turn
+        // WorldManager.startTurn()
     }
 
     DebugTooltip {
@@ -154,46 +166,26 @@ Item {
         }
     }
 
-    // TrajectoryItem {
-    //     id: playerTrajectoryView
-    //     //anchors.fill: parent
-    //     alwaysVisible: true
-    //     anchors.fill: parent
-
-    //     function updateVRect() {
-    //         visibleRect = spaceNode.mapFromItem(view, 0, 0, view.width, view.height);
-    //         console.log("player Vrect = ", visibleRect);
-    //     }
-
-    //     function updateTraj() {
-    //         updateVRect();
-    //         object = null;
-    //         object = WorldManager.context.playerShip
-    //     }
-    // }
-
     MouseArea {
         id: spaceMouseOverlay
         anchors.fill: parent
-        
         propagateComposedEvents: true
-
+        
         onClicked: {
-            if (mouse.button !== Qt.LeftButton)
-                return;
-
+            if (mouse.button !== Qt.LeftButton) return;
             mouse.accepted = true;
 
-            console.log("left clicked in space")
-            //console.log(World.context.playerShip)
-            
             var positionInSpaceNode = mapToItem(spaceNode, mouse.x, mouse.y);
 
-            console.log("For parent: " + positionInSpaceNode )
-            World.context.playerShip.evalTrajectoryTo(positionInSpaceNode);
+            var topLeft =  spaceNode.mapFromItem(view, 0, 0, view.width, view.height);
+            //var defaultPosition = Qt.point(mouse.x, mouse.y);
+
             World.context.playerShip.destination = positionInSpaceNode;
+            playerShipItem.moveTo(positionInSpaceNode);
+            console.log(Qt.point(playerShipItem.x, playerShipItem.y));
+            WorldManager.context.playerShip.position = positionInSpaceNode;
+            WorldManager.context.playerShip.evalTrajectoryTo(positionInSpaceNode);
             
-            //playerTrajectoryView.updateTraj();
         }
     }
 
@@ -263,6 +255,7 @@ Item {
             vAnim.stop();
         }
     }
+
     MouseArea {
         id: bottomHoverArea
 
